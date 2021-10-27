@@ -1,8 +1,9 @@
 import { createReducer } from "@reduxjs/toolkit";
 import { TODO_LIST_ACTIONS } from "../constants";
+import {TODO_LIST} from "../../api/todos";
 
 const initialState = {
-  tasksList: [],
+  tasksList: TODO_LIST,
 };
 const todoListReducer = createReducer(initialState, {
   [TODO_LIST_ACTIONS.TODO_ADD]: (state, action) => {
@@ -15,8 +16,7 @@ const todoListReducer = createReducer(initialState, {
   [TODO_LIST_ACTIONS.TODO_DELETE]: (state, action) => {
     const {id} = action.payload
     const newTasksList = [...state.tasksList]
-    const indexToDo = newTasksList.findIndex(item => item.id === id)
-    newTasksList.splice(indexToDo, 1)
+    newTasksList.splice(id, 1)
     return {
       ...state,
       tasksList: newTasksList,
@@ -26,8 +26,7 @@ const todoListReducer = createReducer(initialState, {
   [TODO_LIST_ACTIONS.TODO_EDIT]: (state, action) => {
     const {id} = action.payload
     const newTasksList = [...state.tasksList]
-    const indexToDo = state.tasksList.findIndex(item => item.id === id)
-    newTasksList.splice(indexToDo, 1, action.payload)
+    newTasksList.splice(id, 1, action.payload)
     return {
       ...state,
       tasksList: newTasksList,
